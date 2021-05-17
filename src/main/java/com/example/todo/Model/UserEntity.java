@@ -2,12 +2,17 @@ package com.example.todo.Model;
 
 import com.example.todo.Core.entity.CoreEntity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
+import javax.persistence.*;
 import java.util.Date;
 
+@Table(name = "User")
 @Entity
 public class UserEntity extends CoreEntity {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "userId")
+    private Long userId;
 
     @Column(name = "username")
     private String username;
@@ -23,6 +28,16 @@ public class UserEntity extends CoreEntity {
 
     @Column(name = "createdAt")
     private Date createdAt;
+
+    @Override
+    public Long getId() {
+        return userId;
+    }
+
+    @Override
+    public void setId(Long userId) {
+        this.userId = userId;
+    }
 
     public String getUsername() {
         return username;
@@ -67,7 +82,8 @@ public class UserEntity extends CoreEntity {
     @Override
     public String toString() {
         return "UserEntity{" +
-                "username='" + username + '\'' +
+                "userId=" + userId +
+                ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", email='" + email + '\'' +
                 ", isActive=" + isActive +

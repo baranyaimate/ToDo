@@ -5,8 +5,14 @@ import com.example.todo.Core.entity.CoreEntity;
 import javax.persistence.*;
 import java.util.Date;
 
+@Table(name = "task")
 @Entity
 public class TaskEntity extends CoreEntity {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "taskId")
+    private Long taskId;
 
     @Column(name = "name")
     private String name;
@@ -30,6 +36,16 @@ public class TaskEntity extends CoreEntity {
     @Column(name = "isImportant")
     @Enumerated(EnumType.ORDINAL)
     private isImportant isImportant;
+
+    @Override
+    public Long getId() {
+        return taskId;
+    }
+
+    @Override
+    public void setId(Long taskId) {
+        this.taskId = taskId;
+    }
 
     public String getName() {
         return name;
@@ -90,7 +106,8 @@ public class TaskEntity extends CoreEntity {
     @Override
     public String toString() {
         return "TaskEntity{" +
-                "name='" + name + '\'' +
+                "taskId=" + taskId +
+                ", name='" + name + '\'' +
                 ", user=" + user +
                 ", updatedAt=" + updatedAt +
                 ", createdAt=" + createdAt +

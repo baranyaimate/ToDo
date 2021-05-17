@@ -1,14 +1,12 @@
 package com.example.todo.Core.entity;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.Transient;
 
 @MappedSuperclass
 public abstract class CoreEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
+    @Transient
     private Long id;
 
     public Long getId() {
@@ -18,5 +16,4 @@ public abstract class CoreEntity {
     public void setId(Long id) {
         this.id = id;
     }
-
 }

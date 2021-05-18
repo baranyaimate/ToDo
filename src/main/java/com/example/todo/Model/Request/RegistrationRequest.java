@@ -1,6 +1,9 @@
 package com.example.todo.Model.Request;
 
+import org.springframework.web.bind.annotation.RequestParam;
+
 public class RegistrationRequest {
+
 
     private String username;
     private String email;

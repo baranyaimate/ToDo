@@ -1,45 +1,61 @@
 package com.example.todo.Service;
 
+import com.example.todo.Model.Entity.UserEntity;
 import com.example.todo.Model.Request.RegistrationRequest;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.Date;
 
 @Service
 public class UserService {
 
-    public String RegistrationService(RegistrationRequest user) {
-        String msg = "";
+    @Autowired
+    PasswordEncoder passwordEncoder;
+
+    public ArrayList<String> RegistrationService(RegistrationRequest user) {
+        ArrayList<String> msg = new ArrayList<>();
         
         if (user.getUsername().length() < 4) {
-            msg += "Username is too short";
+            msg.add("Username is too short");
         }
 
         if (user.getUsername().length() > 50) {
-            msg += "Username is too long";
+            msg.add("Username is too long");
         }
 
         if (user.getPassword().length() < 5) {
-            msg += "Password is too short";
+            msg.add("Password is too short");
         }
 
         if (user.getPassword().length() > 36) {
-            msg += "Password is too long";
+            msg.add("Password is too long");
         }
 
         if (user.getEmail().length() < 5) {
-            msg += "Password is too short";
+            msg.add("Email is too short");
         }
 
         if (user.getEmail().length() > 36) {
-            msg += "Password is too long";
+            msg.add("Email is too long");
         }
 
         if (passwordStrength(user.getPassword()) < 7) {
-            msg += "Password is too easy";
+            msg.add("Password is too easy");
         }
 
         if (msg.isEmpty()) {
-            return "Minden Oké";
+            UserEntity userEntity = new UserEntity();
+            userEntity.setUsername(user.getUsername());
+            userEntity.setPassword(passwordEncoder.encode(user.getUsername()));
+            userEntity.setEmail(user.getEmail());
+            userEntity.setIsActive(1);
+            userEntity.setCreatedAt(new Date(System.currentTimeMillis()));
+
         }
+
         return msg;
     }
 

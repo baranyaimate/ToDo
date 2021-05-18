@@ -1,7 +1,7 @@
 package com.example.todo.Controller;
 
 import com.example.todo.Model.Request.RegistrationRequest;
-import com.example.todo.Model.Response.ResponseTransfer;
+import com.example.todo.Model.Response.MessageResponse;
 import com.example.todo.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -15,7 +15,7 @@ public class RegistrationController {
 
     @PostMapping( "/registration")
     @ResponseBody
-    public ResponseTransfer registration(@RequestBody RegistrationRequest registrationRequest) {
-        return new ResponseTransfer(userService.Registration(registrationRequest));
+    public MessageResponse registration(@RequestBody RegistrationRequest registrationRequest) {
+        return new MessageResponse(userService.Registration(registrationRequest));
     }
 }

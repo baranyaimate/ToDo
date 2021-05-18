@@ -4,15 +4,11 @@ import com.example.todo.Model.Entity.TaskEntity;
 import com.example.todo.Repository.LabelRepository;
 import com.example.todo.Repository.TaskRepository;
 import com.example.todo.Security.JwtUtil;
-import org.json.JSONArray;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.stereotype.Service;
 
-import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class TaskService {
@@ -35,6 +31,13 @@ public class TaskService {
         }
 
         List<TaskEntity> tasks = taskRepository.getTasks(username);
-        return tasks;
+
+        // Próbáltam a jelszót elrejteni
+        List<TaskEntity> tasksWithoutPass = tasks.stream().map(task -> {
+            task.getUser().setPassword("*****");
+            return task;
+        }).collect(Collectors.toList());
+
+        return tasksWithoutPass;
     }
 }

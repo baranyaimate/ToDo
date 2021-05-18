@@ -2,11 +2,11 @@ package com.example.todo.Model.Response;
 
 import java.util.ArrayList;
 
-public class ResponseTransfer {
+public class MessageResponse {
 
     private ArrayList<String> msg;
 
-    public ResponseTransfer(ArrayList<String> msg) {
+    public MessageResponse(ArrayList<String> msg) {
         this.msg = msg;
     }
 

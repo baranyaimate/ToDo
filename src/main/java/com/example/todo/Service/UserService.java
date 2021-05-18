@@ -47,15 +47,21 @@ public class UserService {
             msg.add("Password is too easy");
         }
 
-        if (msg.isEmpty()) {
-            UserEntity userEntity = new UserEntity();
-            userEntity.setUsername(user.getUsername());
-            userEntity.setPassword(passwordEncoder.encode(user.getPassword()));
-            userEntity.setEmail(user.getEmail());
-            userEntity.setIsActive(1);
-            userEntity.setCreatedAt(new Date(System.currentTimeMillis()));
-            userRepo.save(userEntity);
-            msg.add("Successful registration");
+        try {
+            if (msg.isEmpty()) {
+                UserEntity userEntity = new UserEntity();
+                userEntity.setUsername(user.getUsername());
+                userEntity.setPassword(passwordEncoder.encode(user.getPassword()));
+                userEntity.setEmail(user.getEmail());
+                userEntity.setIsActive(1);
+                userEntity.setCreatedAt(new Date(System.currentTimeMillis()));
+                userRepo.save(userEntity);
+                msg.add("Successful registration");
+            }
+        } catch (Exception ex) {
+            System.out.println(ex.toString());
+            System.out.println(ex.getMessage());
+            System.out.println(ex.getStackTrace());
         }
 
         return msg;

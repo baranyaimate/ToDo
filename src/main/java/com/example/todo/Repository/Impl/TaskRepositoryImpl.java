@@ -3,8 +3,15 @@ package com.example.todo.Repository.Impl;
 import com.example.todo.Core.service.impl.CoreCRUDServiceImpl;
 import com.example.todo.Model.Entity.TaskEntity;
 import com.example.todo.Repository.TaskRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import javax.persistence.EntityManager;
+import java.util.List;
 
 public class TaskRepositoryImpl extends CoreCRUDServiceImpl<TaskEntity> implements TaskRepository {
+
+    @Autowired
+    protected EntityManager entityManager;
 
     @Override
     protected void updateCore(TaskEntity persistedEntity, TaskEntity entity) {
@@ -19,6 +26,11 @@ public class TaskRepositoryImpl extends CoreCRUDServiceImpl<TaskEntity> implemen
     @Override
     protected Class<TaskEntity> getManagedClass() {
         return TaskEntity.class;
+    }
+
+    @Override
+    public List<TaskEntity> getTasks(String username) {
+        return entityManager.createQuery("SELECT t FROM " + getManagedClass().getSimpleName() + " t WHERE t.username = " + username, getManagedClass()).getResultList();
     }
 
 }

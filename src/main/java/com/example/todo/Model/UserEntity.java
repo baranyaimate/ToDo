@@ -31,8 +31,7 @@ public class UserEntity extends CoreEntity {
     @Column(name = "createdAt")
     private Date createdAt;
 
-    public UserEntity(Long userId, String username, String password, String email, Integer isActive, Date createdAt) {
-        this.userId = userId;
+    public UserEntity(String username, String password, String email, Integer isActive, Date createdAt) {
         this.username = username;
         this.password = password;
         this.email = email;

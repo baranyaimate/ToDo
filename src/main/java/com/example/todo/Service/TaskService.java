@@ -1,7 +1,7 @@
 package com.example.todo.Service;
 
 import com.example.todo.Core.service.CoreCRUDService;
-import com.example.todo.Model.TaskEntity;
+import com.example.todo.Model.Entity.TaskEntity;
 import org.springframework.stereotype.Service;
 
 @Service

@@ -20,7 +20,7 @@ public class UserService {
     @Autowired
     UserRepository userRepo;
 
-    public ArrayList<String> RegistrationService(RegistrationRequest user) {
+    public ArrayList<String> registration(RegistrationRequest user) {
         ArrayList<String> msg = new ArrayList<>();
         
         if (user.getUsername().length() < 4) {
@@ -59,7 +59,7 @@ public class UserService {
                 msg.add("Successful registration");
             }
         } catch (Exception ex) {
-            System.out.println(ex.toString());
+            System.out.println(ex);
             System.out.println(ex.getMessage());
             System.out.println(ex.getStackTrace());
         }
@@ -67,7 +67,7 @@ public class UserService {
         return msg;
     }
 
-    private static int passwordStrength(String password) {
+    private int passwordStrength(String password) {
 
         //total score of password
         int passwordScore = 0;

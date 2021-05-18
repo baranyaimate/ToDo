@@ -1,7 +1,7 @@
 package com.example.todo.Service.Impl;
 
 import com.example.todo.Core.service.impl.CoreCRUDServiceImpl;
-import com.example.todo.Model.LabelEntity;
+import com.example.todo.Model.Entity.LabelEntity;
 import com.example.todo.Service.LabelService;
 
 public class LabelServiceImpl extends CoreCRUDServiceImpl<LabelEntity> implements LabelService {

@@ -15,7 +15,7 @@ public class RegistrationController {
 
     @PostMapping( "/registration")
     @ResponseBody
-    public ResponseTransfer Registration(@RequestBody RegistrationRequest registrationRequest) {
-        return new ResponseTransfer(userService.RegistrationService(registrationRequest));
+    public ResponseTransfer registration(@RequestBody RegistrationRequest registrationRequest) {
+        return new ResponseTransfer(userService.registration(registrationRequest));
     }
 }

@@ -1,7 +1,7 @@
 package com.example.todo.Service.Impl;
 
 import com.example.todo.Core.service.impl.CoreCRUDServiceImpl;
-import com.example.todo.Model.TaskEntity;
+import com.example.todo.Model.Entity.TaskEntity;
 import com.example.todo.Service.TaskService;
 
 public class TaskServiceImpl extends CoreCRUDServiceImpl<TaskEntity> implements TaskService {
@@ -13,6 +13,7 @@ public class TaskServiceImpl extends CoreCRUDServiceImpl<TaskEntity> implements 
         persistedEntity.setIsImportant(entity.getIsImportant());
         persistedEntity.setName(entity.getName());
         persistedEntity.setUser(entity.getUser());
+        persistedEntity.setUpdatedAt(entity.getUpdatedAt());
     }
 
     @Override

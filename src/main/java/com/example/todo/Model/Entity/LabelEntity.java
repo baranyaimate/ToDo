@@ -1,4 +1,4 @@
-package com.example.todo.Model;
+package com.example.todo.Model.Entity;
 
 import com.example.todo.Core.entity.CoreEntity;
 

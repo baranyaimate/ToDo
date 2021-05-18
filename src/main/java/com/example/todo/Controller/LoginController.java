@@ -1,7 +1,7 @@
 package com.example.todo.Controller;
 
 import com.example.todo.Security.JwtUtil;
-import com.example.todo.Model.AuthRequest;
+import com.example.todo.Model.Request.AuthRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

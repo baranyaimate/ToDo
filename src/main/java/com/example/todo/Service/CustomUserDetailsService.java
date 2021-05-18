@@ -1,6 +1,6 @@
 package com.example.todo.Service;
 
-import com.example.todo.Model.UserEntity;
+import com.example.todo.Model.Entity.UserEntity;
 import com.example.todo.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;

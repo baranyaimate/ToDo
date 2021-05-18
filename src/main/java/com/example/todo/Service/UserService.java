@@ -1,46 +1,63 @@
 package com.example.todo.Service;
 
+import com.example.todo.Model.Entity.UserEntity;
+import com.example.todo.Model.Request.RegistrationRequest;
+import com.example.todo.Repository.UserRepository;
+import org.apache.commons.validator.routines.EmailValidator;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.ArrayList;
+import java.util.Date;
 
 @Service
 public class UserService {
 
-    public String RegistrationService(String username, String email, String password) {
-        String msg = "";
+    @Autowired
+    PasswordEncoder passwordEncoder;
+
+    @Autowired
+    UserRepository userRepo;
+
+    public ArrayList<String> RegistrationService(RegistrationRequest user) {
+        ArrayList<String> msg = new ArrayList<>();
         
-        if (username.length() < 4) {
-            msg += "Username is too short";
+        if (user.getUsername().length() < 4) {
+            msg.add("Username is too short");
         }
 
-        if (username.length() > 50) {
-            msg += "Username is too long";
+        if (user.getUsername().length() > 50) {
+            msg.add("Username is too long");
         }
 
-        if (password.length() < 5) {
-            msg += "Password is too short";
+        if (user.getPassword().length() < 5) {
+            msg.add("Password is too short");
         }
 
-        if (password.length() > 36) {
-            msg += "Password is too long";
+        if (user.getPassword().length() > 36) {
+            msg.add("Password is too long");
         }
 
-        if (email.length() < 5) {
-            msg += "Password is too short";
+        if (!EmailValidator.getInstance().isValid(user.getEmail())) {
+            msg.add("Invalid Email address");
         }
 
-        if (email.length() > 36) {
-            msg += "Password is too long";
-        }
-
-        if (passwordStrength(password) < 7) {
-            msg += "Password is too easy";
+        if (passwordStrength(user.getPassword()) < 6) {
+            msg.add("Password is too easy");
         }
 
         if (msg.isEmpty()) {
-            return "Minden Oké";
+            UserEntity userEntity = new UserEntity();
+            userEntity.setUsername(user.getUsername());
+            userEntity.setPassword(passwordEncoder.encode(user.getPassword()));
+            userEntity.setEmail(user.getEmail());
+            userEntity.setIsActive(1);
+            userEntity.setCreatedAt(new Date(System.currentTimeMillis()));
+            userRepo.save(userEntity);
+            msg.add("Successful registration");
         }
+
         return msg;
     }
 

@@ -29,6 +29,19 @@ public class UserEntity extends CoreEntity {
     @Column(name = "createdAt")
     private Date createdAt;
 
+    public UserEntity(Long userId, String username, String password, String email, Integer isActive, Date createdAt) {
+        this.userId = userId;
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.isActive = isActive;
+        this.createdAt = createdAt;
+    }
+
+    public UserEntity() {
+
+    }
+
     @Override
     public Long getId() {
         return userId;

@@ -18,7 +18,7 @@ public class LabelEntity extends CoreEntity {
 
     @ManyToOne
     @JoinColumn(name = "taskId")
-    private TaskEntity taskId;
+    private TaskEntity task;
 
     @Override
     public Long getId() {
@@ -38,12 +38,12 @@ public class LabelEntity extends CoreEntity {
         this.name = name;
     }
 
-    public TaskEntity getTaskId() {
-        return taskId;
+    public TaskEntity getTask() {
+        return task;
     }
 
-    public void setTaskId(TaskEntity taskId) {
-        this.taskId = taskId;
+    public void setTask(TaskEntity task) {
+        this.task = task;
     }
 
     @Override
@@ -51,7 +51,7 @@ public class LabelEntity extends CoreEntity {
         return "LabelEntity{" +
                 "labelId=" + labelId +
                 ", name='" + name + '\'' +
-                ", taskId=" + taskId +
+                ", task=" + task +
                 '}';
     }
 }

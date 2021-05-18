@@ -1,6 +1,8 @@
 package com.example.todo.Model;
 
 import com.example.todo.Core.entity.CoreEntity;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
 import java.util.Date;

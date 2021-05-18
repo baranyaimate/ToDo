@@ -1,10 +1,10 @@
-package com.example.todo.Service.Impl;
+package com.example.todo.Repository.Impl;
 
 import com.example.todo.Core.service.impl.CoreCRUDServiceImpl;
 import com.example.todo.Model.Entity.TaskEntity;
-import com.example.todo.Service.TaskService;
+import com.example.todo.Repository.TaskRepository;
 
-public class TaskServiceImpl extends CoreCRUDServiceImpl<TaskEntity> implements TaskService {
+public class TaskRepositoryImpl extends CoreCRUDServiceImpl<TaskEntity> implements TaskRepository {
 
     @Override
     protected void updateCore(TaskEntity persistedEntity, TaskEntity entity) {

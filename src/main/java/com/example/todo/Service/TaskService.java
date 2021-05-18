@@ -1,10 +1,16 @@
 package com.example.todo.Service;
 
-import com.example.todo.Core.service.CoreCRUDService;
-import com.example.todo.Model.Entity.TaskEntity;
+import com.example.todo.Repository.LabelRepository;
+import com.example.todo.Repository.TaskRepository;
 import org.springframework.stereotype.Service;
 
 @Service
-public interface TaskService extends CoreCRUDService<TaskEntity> {
+public class TaskService {
 
+    private TaskRepository taskRepository;
+    private LabelRepository labelRepository;
+
+    private String init(){
+        return null;
+    }
 }

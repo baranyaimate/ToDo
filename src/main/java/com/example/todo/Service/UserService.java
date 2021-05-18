@@ -15,10 +15,10 @@ import java.util.Date;
 public class UserService {
 
     @Autowired
-    PasswordEncoder passwordEncoder;
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
-    UserRepository userRepo;
+    private UserRepository userRepo;
 
     public ArrayList<String> registration(RegistrationRequest user) {
         ArrayList<String> msg = new ArrayList<>();

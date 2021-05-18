@@ -1,12 +1,8 @@
 package com.example.todo.Repository;
 
-import com.example.todo.Model.UserEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
-
-import javax.annotation.PostConstruct;
-import java.util.Date;
 
 @Repository
 public class CreateUser {

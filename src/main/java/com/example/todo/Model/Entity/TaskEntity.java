@@ -1,4 +1,4 @@
-package com.example.todo.Model;
+package com.example.todo.Model.Entity;
 
 import com.example.todo.Core.entity.CoreEntity;
 
@@ -95,11 +95,11 @@ public class TaskEntity extends CoreEntity {
         this.description = description;
     }
 
-    public com.example.todo.Model.isImportant getIsImportant() {
+    public com.example.todo.Model.Entity.isImportant getIsImportant() {
         return isImportant;
     }
 
-    public void setIsImportant(com.example.todo.Model.isImportant isImportant) {
+    public void setIsImportant(com.example.todo.Model.Entity.isImportant isImportant) {
         this.isImportant = isImportant;
     }
 

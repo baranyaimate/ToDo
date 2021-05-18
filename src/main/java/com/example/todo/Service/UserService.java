@@ -1,40 +1,39 @@
 package com.example.todo.Service;
 
+import com.example.todo.Model.Request.RegistrationRequest;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class UserService {
 
-    public String RegistrationService(String username, String email, String password) {
+    public String RegistrationService(RegistrationRequest user) {
         String msg = "";
         
-        if (username.length() < 4) {
+        if (user.getUsername().length() < 4) {
             msg += "Username is too short";
         }
 
-        if (username.length() > 50) {
+        if (user.getUsername().length() > 50) {
             msg += "Username is too long";
         }
 
-        if (password.length() < 5) {
+        if (user.getPassword().length() < 5) {
             msg += "Password is too short";
         }
 
-        if (password.length() > 36) {
+        if (user.getPassword().length() > 36) {
             msg += "Password is too long";
         }
 
-        if (email.length() < 5) {
+        if (user.getEmail().length() < 5) {
             msg += "Password is too short";
         }
 
-        if (email.length() > 36) {
+        if (user.getEmail().length() > 36) {
             msg += "Password is too long";
         }
 
-        if (passwordStrength(password) < 7) {
+        if (passwordStrength(user.getPassword()) < 7) {
             msg += "Password is too easy";
         }
 

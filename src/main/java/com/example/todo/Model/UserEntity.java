@@ -5,6 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 import java.util.Date;
 
 @Table(name = "User")
@@ -23,6 +25,8 @@ public class UserEntity extends CoreEntity {
     private String password;
 
     @Column(name = "email")
+    @Email
+    @NotBlank
     private String email;
 
     @Column(name = "isActive")

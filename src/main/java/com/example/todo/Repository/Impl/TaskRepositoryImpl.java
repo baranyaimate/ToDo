@@ -32,5 +32,4 @@ public class TaskRepositoryImpl extends CoreCRUDServiceImpl<TaskEntity> implemen
     public List<TaskEntity> getTasks(String username) {
         return entityManager.createQuery("SELECT t FROM " + getManagedClass().getSimpleName() + " t WHERE t.username = " + username, getManagedClass()).getResultList();
     }
-
 }

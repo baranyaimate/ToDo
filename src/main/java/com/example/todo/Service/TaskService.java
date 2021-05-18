@@ -9,6 +9,8 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -17,27 +19,18 @@ public class TaskService {
     @Autowired
     private JwtUtil jwtUtil;
 
-    @Autowired
     private TaskRepository taskRepository;
-
-    @Autowired
     private LabelRepository labelRepository;
 
-    private String init(){
-        return null;
-    }
-
-    public JSONObject getTasks(String token) {
-        jwtUtil.extractUsername(token);
-        List<TaskEntity> tasks = taskRepository.getTasks(jwtUtil.extractUsername(token));
-
-        JSONArray tasksJsonArray = new JSONArray();
-        for (TaskEntity task : tasks) {
-            tasksJsonArray.put(task.getId());
-            tasksJsonArray.put(task.getName());
-            tasksJsonArray.put(task.getUser().getUsername());
+    public List<TaskEntity> getTasks(String authorizationHeader) {
+        String token = "";
+        String username = "";
+        if(authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
+            token = authorizationHeader.substring(7);
+            username = jwtUtil.extractUsername(token);
         }
 
-        return new JSONObject().put("result", tasksJsonArray);
+        List<TaskEntity> tasks = taskRepository.getTasks(username);
+        return tasks;
     }
 }

@@ -10,5 +10,4 @@ import java.util.List;
 public interface TaskRepository extends CoreCRUDService<TaskEntity> {
 
     public List<TaskEntity> getTasks(String username);
-
 }

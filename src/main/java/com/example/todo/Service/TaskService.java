@@ -7,6 +7,7 @@ import com.example.todo.Security.JwtUtil;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
@@ -19,7 +20,10 @@ public class TaskService {
     @Autowired
     private JwtUtil jwtUtil;
 
+    @Autowired
     private TaskRepository taskRepository;
+
+    @Autowired
     private LabelRepository labelRepository;
 
     public List<TaskEntity> getTasks(String authorizationHeader) {

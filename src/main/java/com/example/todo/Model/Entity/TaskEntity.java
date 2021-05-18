@@ -1,6 +1,7 @@
 package com.example.todo.Model.Entity;
 
 import com.example.todo.Core.entity.CoreEntity;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 import javax.persistence.*;
 import java.util.Date;

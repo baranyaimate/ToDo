@@ -4,10 +4,12 @@ import com.example.todo.Core.service.impl.CoreCRUDServiceImpl;
 import com.example.todo.Model.Entity.TaskEntity;
 import com.example.todo.Repository.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import java.util.List;
 
+@Repository
 public class TaskRepositoryImpl extends CoreCRUDServiceImpl<TaskEntity> implements TaskRepository {
 
     @Autowired
@@ -30,6 +32,8 @@ public class TaskRepositoryImpl extends CoreCRUDServiceImpl<TaskEntity> implemen
 
     @Override
     public List<TaskEntity> getTasks(String username) {
-        return entityManager.createQuery("SELECT t FROM " + getManagedClass().getSimpleName() + " t WHERE t.username = " + username, getManagedClass()).getResultList();
+        return entityManager.createQuery("SELECT t FROM TaskEntity t WHERE t.user.username = :username", TaskEntity.class)
+                .setParameter("username", username)
+                .getResultList();
     }
 }

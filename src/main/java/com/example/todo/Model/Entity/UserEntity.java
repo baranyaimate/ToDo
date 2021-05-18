@@ -2,6 +2,7 @@ package com.example.todo.Model.Entity;
 
 import com.example.todo.Core.entity.CoreEntity;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;

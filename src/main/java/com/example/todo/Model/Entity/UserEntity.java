@@ -18,13 +18,13 @@ public class UserEntity extends CoreEntity {
     @Column(name = "userId")
     private Long userId;
 
-    @Column(name = "username")
+    @Column(name = "username", unique = true)
     private String username;
 
     @Column(name = "password")
     private String password;
 
-    @Column(name = "email")
+    @Column(name = "email", unique = true)
     @Email
     @NotBlank
     private String email;

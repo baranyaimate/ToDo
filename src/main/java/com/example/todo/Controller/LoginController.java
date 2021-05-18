@@ -21,7 +21,7 @@ public class LoginController {
 
     @GetMapping( "/")
     public String Login(){
-        return "Sikeres azonosítás";
+        return "Successful logged in!";
     }
 
     @PostMapping("/authenticate")

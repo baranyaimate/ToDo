@@ -20,7 +20,7 @@ public class UserService {
     @Autowired
     private UserRepository userRepo;
 
-    public ArrayList<String> registration(RegistrationRequest user) {
+    public ArrayList<String> Registration(RegistrationRequest user) {
         ArrayList<String> msg = new ArrayList<>();
         
         if (user.getUsername().length() < 4) {
@@ -43,8 +43,16 @@ public class UserService {
             msg.add("Invalid Email address");
         }
 
-        if (passwordStrength(user.getPassword()) < 6) {
+        if (PasswordStrength(user.getPassword()) < 6) {
             msg.add("Password is too easy");
+        }
+
+        if (UsernameIsUnique(user.getUsername())) {
+            msg.add("Username is not unique");
+        }
+
+        if (EmailIsUnique(user.getEmail())) {
+            msg.add("Email is not unique");
         }
 
         try {
@@ -67,7 +75,7 @@ public class UserService {
         return msg;
     }
 
-    private int passwordStrength(String password) {
+    private int PasswordStrength(String password) {
 
         //total score of password
         int passwordScore = 0;
@@ -92,5 +100,13 @@ public class UserService {
         if (password.matches("(?=.*[~!@#$%^&*()_-]).*")) passwordScore += 2;
 
         return passwordScore;
+    }
+
+    private boolean UsernameIsUnique(String username){
+        return userRepo.countByUsername(username) > 0;
+    }
+
+    private boolean EmailIsUnique(String email){
+        return userRepo.countByEmail(email) > 0;
     }
 }

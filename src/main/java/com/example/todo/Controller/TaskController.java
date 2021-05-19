@@ -1,6 +1,5 @@
 package com.example.todo.Controller;
 
-import com.example.todo.Model.Entity.TaskEntity;
 import com.example.todo.Model.Response.TasksResponse;
 import com.example.todo.Service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;

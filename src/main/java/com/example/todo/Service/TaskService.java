@@ -35,18 +35,7 @@ public class TaskService {
         tasks.stream().peek(task -> {
             List<String> labels = labelRepository.getLabelsByTask(task.getId(), username);
             task.getUser().setPassword(null);
-            TasksResponse taskData =  new TasksResponse();
-
-            taskData.setId(task.getId());
-            taskData.setName(task.getName());
-            taskData.setDeadline(task.getDeadline());
-            taskData.setDescription(task.getDescription());
-            taskData.setIsImportant(task.getIsImportant());
-            taskData.setUser(task.getUser());
-            taskData.setCreatedAt(task.getCreatedAt());
-            taskData.setUpdatedAt(task.getUpdatedAt());
-            taskData.setLabel(labels);
-            tasksData.add(taskData);
+            tasksData.add(addTaskToTaskResponse(task, labels));
         }).collect(Collectors.toList());
 
         return tasksData;
@@ -60,6 +49,18 @@ public class TaskService {
         List<String> labels = labelRepository.getLabelsByTask(taskId, username);
         task.getUser().setPassword(null);
 
+        return addTaskToTaskResponse(task, labels);
+    }
+
+    private String getUsername(String authorizationHeader) {
+        if(authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
+            String token = authorizationHeader.substring(7);
+            return jwtUtil.extractUsername(token);
+        }
+        return "";
+    }
+
+    private TasksResponse addTaskToTaskResponse(TaskEntity task, List<String> labels) {
         TasksResponse taskData =  new TasksResponse();
 
         taskData.setId(task.getId());
@@ -73,13 +74,5 @@ public class TaskService {
         taskData.setLabel(labels);
 
         return taskData;
-    }
-
-    private String getUsername(String authorizationHeader) {
-        if(authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
-            String token = authorizationHeader.substring(7);
-            return jwtUtil.extractUsername(token);
-        }
-        return "";
     }
 }

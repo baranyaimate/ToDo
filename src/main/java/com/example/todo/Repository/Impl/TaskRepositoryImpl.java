@@ -36,4 +36,12 @@ public class TaskRepositoryImpl extends CoreCRUDServiceImpl<TaskEntity> implemen
                 .setParameter("username", username)
                 .getResultList();
     }
+
+    @Override
+    public TaskEntity getTask(String username, Long taskId) {
+        return entityManager.createQuery("SELECT t FROM TaskEntity t WHERE t.user.username = :username AND t.taskId = :taskId", TaskEntity.class)
+                .setParameter("username", username)
+                .setParameter("taskId", taskId)
+                .getSingleResult();
+    }
 }

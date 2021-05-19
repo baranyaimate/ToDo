@@ -19,4 +19,10 @@ public class TaskController {
         return taskService.getTasks(Authorization);
     }
 
+    @PostMapping( "/task/{taskId}")
+    @ResponseBody
+    public TaskEntity getTask(@RequestHeader String Authorization, @PathVariable Long taskId){
+        return taskService.getTask(Authorization, taskId);
+    }
+
 }

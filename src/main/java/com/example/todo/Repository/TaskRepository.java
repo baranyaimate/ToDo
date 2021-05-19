@@ -8,4 +8,6 @@ import java.util.List;
 public interface TaskRepository extends CoreCRUDService<TaskEntity> {
 
     List<TaskEntity> getTasks(String username);
+
+    TaskEntity getTask(String username, Long taskId);
 }

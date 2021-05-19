@@ -23,10 +23,9 @@ public class TaskService {
     private LabelRepository labelRepository;
 
     public List<TaskEntity> getTasks(String authorizationHeader) {
-        String token = "";
         String username = "";
         if(authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
-            token = authorizationHeader.substring(7);
+            String token = authorizationHeader.substring(7);
             username = jwtUtil.extractUsername(token);
         }
 
@@ -39,5 +38,18 @@ public class TaskService {
         }).collect(Collectors.toList());
 
         return tasksWithoutPass;
+    }
+
+    public TaskEntity getTask(String authorizationHeader, Long taskId) {
+        String username = "";
+        if(authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
+            String token = authorizationHeader.substring(7);
+            username = jwtUtil.extractUsername(token);
+        }
+
+        TaskEntity task = taskRepository.getTask(username, taskId);
+        task.getUser().setPassword(null);
+
+        return task;
     }
 }

@@ -52,6 +52,14 @@ public class TaskService {
         return addTaskToTaskResponse(task, labels);
     }
 
+    public String addTask(String authorizationHeader, TaskEntity taskEntity) {
+
+        //TODO: validate
+
+        taskRepository.add(taskEntity);
+        return "200";
+    }
+
     private String getUsername(String authorizationHeader) {
         if(authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
             String token = authorizationHeader.substring(7);

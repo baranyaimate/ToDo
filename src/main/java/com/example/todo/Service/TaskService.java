@@ -31,13 +31,7 @@ public class TaskService {
 
         List<TaskEntity> tasks = taskRepository.getTasks(username);
 
-        // Próbáltam a jelszót elrejteni
-        List<TaskEntity> tasksWithoutPass = tasks.stream().map(task -> {
-            task.getUser().setPassword("*****");
-            return task;
-        }).collect(Collectors.toList());
-
-        return tasksWithoutPass;
+        return tasks.stream().peek(task -> task.getUser().setPassword(null)).collect(Collectors.toList());
     }
 
     public TaskEntity getTask(String authorizationHeader, Long taskId) {

@@ -89,6 +89,19 @@ public class TaskService {
         return msg;
     }
 
+    public List<String> deleteTask(String authorizationHeader, Long taskId) {
+        ArrayList<String> msg = new ArrayList<>();
+        String username = getUsername(authorizationHeader);
+
+        try {
+            taskRepository.remove(taskRepository.getTask(username, taskId));
+            msg.add("Task deleted");
+        } catch (Exception e) {
+            msg.add("Invalid task id");
+        }
+        return msg;
+    }
+
     private String getUsername(String authorizationHeader) {
         if(authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
             String token = authorizationHeader.substring(7);

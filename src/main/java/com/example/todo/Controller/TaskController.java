@@ -32,4 +32,10 @@ public class TaskController {
         return taskService.addTask(Authorization, taskEntity);
     }
 
+    @PostMapping("/task/delete/{taskId}")
+    @ResponseBody
+    public List<String> deleteTask(@RequestHeader String Authorization, @PathVariable Long taskId) {
+        return taskService.deleteTask(Authorization, taskId);
+    }
+
 }

@@ -20,8 +20,13 @@ public class JwtUtil {
         return extractClaim(token, Claims::getSubject);
     }
 
-    public String extractId(String token) {
-        return extractClaim(token, Claims::getId);
+    public Long extractId(String token) {
+        try {
+            return Long.parseLong(extractClaim(token, Claims::getId));
+        } catch (NumberFormatException ex) {
+            System.out.println(ex.toString());
+        }
+        return 0l;
     }
 
     public Date extractExpiration(String token) {

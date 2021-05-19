@@ -1,6 +1,7 @@
 package com.example.todo.Controller;
 
 import com.example.todo.Model.Entity.TaskEntity;
+import com.example.todo.Model.Response.TasksResponse;
 import com.example.todo.Service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -21,7 +22,7 @@ public class TaskController {
 
     @PostMapping( "/task/{taskId}")
     @ResponseBody
-    public TaskEntity getTask(@RequestHeader String Authorization, @PathVariable Long taskId){
+    public TasksResponse getTask(@RequestHeader String Authorization, @PathVariable Long taskId){
         return taskService.getTask(Authorization, taskId);
     }
 

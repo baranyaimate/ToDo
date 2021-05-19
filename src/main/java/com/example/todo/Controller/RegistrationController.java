@@ -15,7 +15,7 @@ public class RegistrationController {
 
     @PostMapping( "/registration")
     @ResponseBody
-    public MessageResponse registration(@RequestBody RegistrationRequest registrationRequest) {
+    public MessageResponse registration(RegistrationRequest registrationRequest) {
         return new MessageResponse(userService.Registration(registrationRequest));
     }
 }

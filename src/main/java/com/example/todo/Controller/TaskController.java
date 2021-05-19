@@ -16,7 +16,7 @@ public class TaskController {
 
     @PostMapping( "/tasks")
     @ResponseBody
-    public List<TaskEntity> getTasks(@RequestHeader String Authorization){
+    public List<TasksResponse> getTasks(@RequestHeader String Authorization){
         return taskService.getTasks(Authorization);
     }
 

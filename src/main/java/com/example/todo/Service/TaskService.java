@@ -8,6 +8,7 @@ import com.example.todo.Security.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,13 +24,32 @@ public class TaskService {
     @Autowired
     private LabelRepository labelRepository;
 
-    public List<TaskEntity> getTasks(String authorizationHeader) {
+    public List<TasksResponse> getTasks(String authorizationHeader) {
 
         String username = getUsername(authorizationHeader);
 
         List<TaskEntity> tasks = taskRepository.getTasks(username);
 
-        return tasks.stream().peek(task -> task.getUser().setPassword(null)).collect(Collectors.toList());
+        List<TasksResponse> tasksData = new ArrayList<>();
+
+        tasks.stream().peek(task -> {
+            List<String> labels = labelRepository.getLabelsByTask(task.getId(), username);
+            task.getUser().setPassword(null);
+            TasksResponse taskData =  new TasksResponse();
+
+            taskData.setId(task.getId());
+            taskData.setName(task.getName());
+            taskData.setDeadline(task.getDeadline());
+            taskData.setDescription(task.getDescription());
+            taskData.setIsImportant(task.getIsImportant());
+            taskData.setUser(task.getUser());
+            taskData.setCreatedAt(task.getCreatedAt());
+            taskData.setUpdatedAt(task.getUpdatedAt());
+            taskData.setLabel(labels);
+            tasksData.add(taskData);
+        }).collect(Collectors.toList());
+
+        return tasksData;
     }
 
     public TasksResponse getTask(String authorizationHeader, Long taskId) {

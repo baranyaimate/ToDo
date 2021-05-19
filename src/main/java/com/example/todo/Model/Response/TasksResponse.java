@@ -1,9 +1,7 @@
 package com.example.todo.Model.Response;
 
-import com.example.todo.Model.Entity.LabelEntity;
 import com.example.todo.Model.Entity.TaskEntity;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class TasksResponse extends TaskEntity {

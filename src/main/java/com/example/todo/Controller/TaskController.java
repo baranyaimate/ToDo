@@ -28,7 +28,7 @@ public class TaskController {
 
     @PostMapping( "/task/add")
     @ResponseBody
-    public String addTask(@RequestHeader String Authorization, TaskEntity taskEntity){
+    public List<String> addTask(@RequestHeader String Authorization, TaskEntity taskEntity){
         return taskService.addTask(Authorization, taskEntity);
     }
 

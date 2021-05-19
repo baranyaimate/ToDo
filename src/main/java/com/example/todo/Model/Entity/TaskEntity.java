@@ -34,8 +34,7 @@ public class TaskEntity extends CoreEntity {
     private String description;
 
     @Column(name = "isImportant")
-    @Enumerated(EnumType.ORDINAL)
-    private isImportant isImportant;
+    private Integer isImportant;
 
     @Override
     public Long getId() {
@@ -95,11 +94,11 @@ public class TaskEntity extends CoreEntity {
         this.description = description;
     }
 
-    public com.example.todo.Model.Entity.isImportant getIsImportant() {
+    public Integer getIsImportant() {
         return isImportant;
     }
 
-    public void setIsImportant(com.example.todo.Model.Entity.isImportant isImportant) {
+    public void setIsImportant(Integer isImportant) {
         this.isImportant = isImportant;
     }
 
@@ -116,8 +115,4 @@ public class TaskEntity extends CoreEntity {
                 ", isImportant=" + isImportant +
                 '}';
     }
-}
-
-enum isImportant {
-    No, Yes
 }

@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -52,12 +53,35 @@ public class TaskService {
         return addTaskToTaskResponse(task, labels);
     }
 
-    public String addTask(String authorizationHeader, TaskEntity taskEntity) {
+    public List<String> addTask(String authorizationHeader, TaskEntity taskEntity) {
+        ArrayList<String> msg = new ArrayList<>();
 
-        //TODO: validate
+        taskEntity.setCreatedAt(new Date(System.currentTimeMillis()));
+        //Pl ezert kene szerintem atirni username helyett userId-ra
+        //taskEntity.setUser();
 
-        taskRepository.add(taskEntity);
-        return "200";
+        //TODO: nem tudom hogyan tudok dátumot átadni a postmen-ből😅
+        /*if (taskEntity.getDeadline() == null) {
+            msg.add("Deadline is required");
+        }*/
+        if (taskEntity.getDescription() == null || taskEntity.getDescription().length() < 4) {
+            msg.add("Description is too short");
+        }
+        if (taskEntity.getIsImportant() == null) {
+            taskEntity.setIsImportant(0);
+        }
+        if (taskEntity.getIsImportant() > 1) {
+            taskEntity.setIsImportant(1);
+        }
+        if (taskEntity.getDescription() == null || taskEntity.getName().length() < 4) {
+            msg.add("Name is too short");
+        }
+
+        if (msg.isEmpty()) {
+            taskRepository.add(taskEntity);
+            msg.add("Task created");
+        }
+        return msg;
     }
 
     private String getUsername(String authorizationHeader) {

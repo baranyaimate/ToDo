@@ -1,6 +1,8 @@
 package com.example.todo.Model.Entity;
 
 import com.example.todo.Core.entity.CoreEntity;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -30,6 +32,8 @@ public class UserEntity extends CoreEntity {
     @Column(name = "isActive")
     private Integer isActive;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @Column(name = "createdAt")
     private Date createdAt;
 
@@ -42,6 +46,10 @@ public class UserEntity extends CoreEntity {
     }
 
     public UserEntity() {
+    }
+
+    public UserEntity(Long userId) {
+        super();
     }
 
     @Override

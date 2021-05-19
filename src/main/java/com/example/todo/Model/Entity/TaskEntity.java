@@ -1,6 +1,8 @@
 package com.example.todo.Model.Entity;
 
 import com.example.todo.Core.entity.CoreEntity;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -21,12 +23,18 @@ public class TaskEntity extends CoreEntity {
     @JoinColumn(name = "userId")
     private UserEntity user;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @Column(name = "updatedAt")
     private Date updatedAt;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @Column(name = "createdAt")
     private Date createdAt;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @Column(name = "deadline")
     private Date deadline;
 

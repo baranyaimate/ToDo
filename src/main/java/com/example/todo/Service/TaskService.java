@@ -1,9 +1,11 @@
 package com.example.todo.Service;
 
 import com.example.todo.Model.Entity.TaskEntity;
+import com.example.todo.Model.Entity.UserEntity;
 import com.example.todo.Model.Response.TasksResponse;
 import com.example.todo.Repository.LabelRepository;
 import com.example.todo.Repository.TaskRepository;
+import com.example.todo.Repository.UserRepository;
 import com.example.todo.Security.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,6 +26,9 @@ public class TaskService {
 
     @Autowired
     private LabelRepository labelRepository;
+
+    @Autowired
+    private UserRepository userRepository;
 
     public List<TasksResponse> getTasks(String authorizationHeader) {
 
@@ -55,15 +60,15 @@ public class TaskService {
 
     public List<String> addTask(String authorizationHeader, TaskEntity taskEntity) {
         ArrayList<String> msg = new ArrayList<>();
+        String token = authorizationHeader.substring(7);
+        UserEntity user = userRepository.findByUsername(jwtUtil.extractUsername(token));
 
         taskEntity.setCreatedAt(new Date(System.currentTimeMillis()));
-        //Pl ezert kene szerintem atirni username helyett userId-ra
-        //taskEntity.setUser();
+        taskEntity.setUser(user);
 
-        //TODO: nem tudom hogyan tudok dátumot átadni a postmen-ből😅
-        /*if (taskEntity.getDeadline() == null) {
+        if (taskEntity.getDeadline() == null) {
             msg.add("Deadline is required");
-        }*/
+        }
         if (taskEntity.getDescription() == null || taskEntity.getDescription().length() < 4) {
             msg.add("Description is too short");
         }
@@ -87,9 +92,6 @@ public class TaskService {
     private String getUsername(String authorizationHeader) {
         if(authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
             String token = authorizationHeader.substring(7);
-
-            //Így most az ID-t is lekérheted
-            jwtUtil.extractId(token);
             return jwtUtil.extractUsername(token);
         }
         return "";

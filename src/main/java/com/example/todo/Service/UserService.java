@@ -68,8 +68,6 @@ public class UserService {
             }
         } catch (Exception ex) {
             System.out.println(ex);
-            System.out.println(ex.getMessage());
-            System.out.println(ex.getStackTrace());
         }
 
         return msg;

@@ -87,6 +87,9 @@ public class TaskService {
     private String getUsername(String authorizationHeader) {
         if(authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
             String token = authorizationHeader.substring(7);
+
+            //Így most az ID-t is lekérheted
+            jwtUtil.extractId(token);
             return jwtUtil.extractUsername(token);
         }
         return "";

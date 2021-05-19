@@ -1,5 +1,6 @@
 package com.example.todo.Controller;
 
+import com.example.todo.Repository.UserRepository;
 import com.example.todo.Security.JwtUtil;
 import com.example.todo.Model.Request.AuthRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,9 @@ public class LoginController {
 
     @Autowired
     private JwtUtil jwtUtil;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @Autowired
     private AuthenticationManager authenticationManager;
@@ -33,6 +37,6 @@ public class LoginController {
         } catch (Exception ex) {
             return "Invalid username or password";
         }
-        return jwtUtil.generateToken(authRequest.getUsername());
+        return jwtUtil.generateToken(authRequest.getUsername(), userRepository.findByUsername(authRequest.getUsername()).getId());
     }
 }

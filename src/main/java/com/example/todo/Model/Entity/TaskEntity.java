@@ -120,5 +120,5 @@ public class TaskEntity extends CoreEntity {
 }
 
 enum isImportant {
-    Yes, No;
+    No, Yes;
 }

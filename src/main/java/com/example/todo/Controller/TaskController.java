@@ -13,7 +13,7 @@ public class TaskController {
     @Autowired
     TaskService taskService;
 
-    @GetMapping( "/tasks")
+    @PostMapping( "/tasks")
     @ResponseBody
     public List<TaskEntity> getTasks(@RequestHeader String Authorization){
         return taskService.getTasks(Authorization);

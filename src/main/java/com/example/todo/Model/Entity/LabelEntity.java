@@ -16,8 +16,9 @@ public class LabelEntity extends CoreEntity {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "taskId")
-    private Long taskId;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "taskId")
+    private TaskEntity taskId;
 
     @Override
     public Long getId() {
@@ -37,11 +38,11 @@ public class LabelEntity extends CoreEntity {
         this.name = name;
     }
 
-    public Long getTaskId() {
+    public TaskEntity getTask() {
         return taskId;
     }
 
-    public void setTaskId(Long taskId) {
+    public void setTask(TaskEntity taskId) {
         this.taskId = taskId;
     }
 

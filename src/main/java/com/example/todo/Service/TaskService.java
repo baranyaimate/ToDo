@@ -38,7 +38,7 @@ public class TaskService {
 
         tasks.stream().peek(task -> {
             task.getUser().setPassword(null);
-            task.getLabel().stream().peek(labelEntity -> labelEntity.setTaskId(null)).collect(Collectors.toList());
+            task.getLabel().stream().peek(labelEntity -> labelEntity.setTask(null)).collect(Collectors.toList());
         }).collect(Collectors.toList());
 
 
@@ -51,7 +51,7 @@ public class TaskService {
 
         TaskEntity task = taskRepository.getTask(username, taskId);
         task.getUser().setPassword(null);
-        task.getLabel().stream().peek(labelEntity -> labelEntity.setTaskId(null)).collect(Collectors.toList());
+        task.getLabel().stream().peek(labelEntity -> labelEntity.setTask(null)).collect(Collectors.toList());
 
         return task;
     }
@@ -141,12 +141,17 @@ public class TaskService {
 
         try{
             TaskEntity task = taskRepository.getTask(username, taskId);
-            LabelEntity labelEntity = new LabelEntity();
-            labelEntity.setName(name);
-            labelEntity.setTaskId(task.getId());
-            labelRepository.add(labelEntity);
 
-            msg.add("Label added successful");
+            if(task.getLabel().size() < 10) {
+                LabelEntity labelEntity = new LabelEntity();
+                labelEntity.setName(name);
+                labelEntity.setTask(task);
+                labelRepository.add(labelEntity);
+
+                msg.add("Label added successful");
+            } else {
+                msg.add("You have reached the max number of the labels");
+            }
         } catch (Exception ex) {
             msg.add("Invalid task id");
         }

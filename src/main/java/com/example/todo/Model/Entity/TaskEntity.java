@@ -25,8 +25,7 @@ public class TaskEntity extends CoreEntity {
     @JoinColumn(name = "userId")
     private UserEntity user;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "taskId")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "taskId")
     private List<LabelEntity> label;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss")

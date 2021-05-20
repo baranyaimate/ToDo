@@ -29,11 +29,11 @@ public class JwtFilter extends OncePerRequestFilter {
         String authorizationHeader = httpServletRequest.getHeader("Authorization");
         String token = "";
         String username = "";
-        if(authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
+        if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
             token = authorizationHeader.substring(7);
             username = jwtUtil.extractUsername(token);
         }
-        if(!username.isEmpty() && SecurityContextHolder.getContext().getAuthentication() == null) {
+        if (!username.isEmpty() && SecurityContextHolder.getContext().getAuthentication() == null) {
             UserDetails userDetails = userDetailsService.loadUserByUsername(username);
 
             if (jwtUtil.validateToken(token, userDetails)) {

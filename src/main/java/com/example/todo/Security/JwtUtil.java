@@ -24,7 +24,7 @@ public class JwtUtil {
         try {
             return Long.parseLong(extractClaim(token, Claims::getId));
         } catch (NumberFormatException ex) {
-            System.out.println(ex.toString());
+            System.out.println(ex);
         }
         return 0l;
     }

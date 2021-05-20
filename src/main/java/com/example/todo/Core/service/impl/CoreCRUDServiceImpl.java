@@ -1,7 +1,7 @@
 package com.example.todo.Core.service.impl;
 
-import com.example.todo.Core.service.CoreCRUDService;
 import com.example.todo.Core.entity.CoreEntity;
+import com.example.todo.Core.service.CoreCRUDService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.EntityManager;

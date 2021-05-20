@@ -89,6 +89,37 @@ public class TaskService {
         return msg;
     }
 
+    public List<String> updateTask(String authorizationHeader, TaskEntity taskEntity) {
+        ArrayList<String> msg = new ArrayList<>();
+        String token = authorizationHeader.substring(7);
+        UserEntity user = userRepository.findByUsername(jwtUtil.extractUsername(token));
+        TaskEntity currentTask = taskRepository.getTask(user.getUsername(), taskEntity.getId());
+
+        taskEntity.setUpdatedAt(new Date(System.currentTimeMillis()));
+        taskEntity.setUser(user);
+
+        if (taskEntity.getDeadline() == null) {
+            taskEntity.setDeadline(currentTask.getDeadline());
+        }
+        if (taskEntity.getDescription() == null) {
+            taskEntity.setDescription(currentTask.getDescription());
+        }
+        if (taskEntity.getIsImportant() == null) {
+            taskEntity.setIsImportant(currentTask.getIsImportant());
+        }
+        if (taskEntity.getName() == null) {
+            taskEntity.setName(currentTask.getName());
+        }
+
+        try {
+            taskRepository.update(taskEntity);
+            msg.add("Task updated");
+        } catch (Exception e) {
+            msg.add("Invalid parameters");
+        }
+        return msg;
+    }
+
     public List<String> deleteTask(String authorizationHeader, Long taskId) {
         ArrayList<String> msg = new ArrayList<>();
         String username = getUsername(authorizationHeader);
@@ -103,7 +134,7 @@ public class TaskService {
     }
 
     private String getUsername(String authorizationHeader) {
-        if(authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
+        if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
             String token = authorizationHeader.substring(7);
             return jwtUtil.extractUsername(token);
         }
@@ -111,7 +142,7 @@ public class TaskService {
     }
 
     private TasksResponse addTaskToTaskResponse(TaskEntity task, List<String> labels) {
-        TasksResponse taskData =  new TasksResponse();
+        TasksResponse taskData = new TasksResponse();
 
         taskData.setId(task.getId());
         taskData.setName(task.getName());

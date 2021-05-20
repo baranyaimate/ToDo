@@ -14,28 +14,34 @@ public class TaskController {
     @Autowired
     TaskService taskService;
 
-    @PostMapping( "/tasks")
+    @PostMapping("/tasks")
     @ResponseBody
-    public List<TasksResponse> getTasks(@RequestHeader String Authorization){
-        return taskService.getTasks(Authorization);
+    public List<TasksResponse> getTasks(@RequestHeader String authorization) {
+        return taskService.getTasks(authorization);
     }
 
-    @PostMapping( "/task/{taskId}")
+    @PostMapping("/task/{taskId}")
     @ResponseBody
-    public TasksResponse getTask(@RequestHeader String Authorization, @PathVariable Long taskId){
-        return taskService.getTask(Authorization, taskId);
+    public TasksResponse getTask(@RequestHeader String authorization, @PathVariable Long taskId) {
+        return taskService.getTask(authorization, taskId);
     }
 
-    @PostMapping( "/task/add")
+    @PostMapping("/task/add")
     @ResponseBody
-    public List<String> addTask(@RequestHeader String Authorization, TaskEntity taskEntity){
-        return taskService.addTask(Authorization, taskEntity);
+    public List<String> addTask(@RequestHeader String authorization, TaskEntity taskEntity) {
+        return taskService.addTask(authorization, taskEntity);
     }
 
     @PostMapping("/task/delete/{taskId}")
     @ResponseBody
-    public List<String> deleteTask(@RequestHeader String Authorization, @PathVariable Long taskId) {
-        return taskService.deleteTask(Authorization, taskId);
+    public List<String> deleteTask(@RequestHeader String authorization, @PathVariable Long taskId) {
+        return taskService.deleteTask(authorization, taskId);
+    }
+
+    @PostMapping("/task/update")
+    @ResponseBody
+    public List<String> updateTask(@RequestHeader String authorization, TaskEntity taskEntity) {
+        return taskService.updateTask(authorization, taskEntity);
     }
 
 }

@@ -22,7 +22,7 @@ public class UserService {
 
     public ArrayList<String> Registration(RegistrationRequest user) {
         ArrayList<String> msg = new ArrayList<>();
-        
+
         if (user.getUsername().length() < 4) {
             msg.add("Username is too short");
         }
@@ -100,11 +100,11 @@ public class UserService {
         return passwordScore;
     }
 
-    private boolean UsernameIsUnique(String username){
+    private boolean UsernameIsUnique(String username) {
         return userRepo.countByUsername(username) > 0;
     }
 
-    private boolean EmailIsUnique(String email){
+    private boolean EmailIsUnique(String email) {
         return userRepo.countByEmail(email) > 0;
     }
 }

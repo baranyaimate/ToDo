@@ -25,7 +25,7 @@ public class TaskEntity extends CoreEntity {
     @JoinColumn(name = "userId")
     private UserEntity user;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "taskId")
     private List<LabelEntity> label;
 

@@ -44,4 +44,10 @@ public class TaskController {
         return new MessageResponse(taskService.updateTask(authorization, taskEntity, taskId));
     }
 
+    @PostMapping("/task/label/add/{taskId}")
+    @ResponseBody
+    public MessageResponse addLabel(@RequestHeader String authorization, @PathVariable Long taskId, @RequestParam String name) {
+        return new MessageResponse(taskService.addLabel(authorization, taskId, name));
+    }
+
 }

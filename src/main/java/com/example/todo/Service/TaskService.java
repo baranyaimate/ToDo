@@ -1,7 +1,9 @@
 package com.example.todo.Service;
 
+import com.example.todo.Model.Entity.LabelEntity;
 import com.example.todo.Model.Entity.TaskEntity;
 import com.example.todo.Model.Entity.UserEntity;
+import com.example.todo.Repository.LabelRepository;
 import com.example.todo.Repository.TaskRepository;
 import com.example.todo.Repository.UserRepository;
 import com.example.todo.Security.JwtUtil;
@@ -23,6 +25,9 @@ public class TaskService {
     private TaskRepository taskRepository;
 
     @Autowired
+    private LabelRepository labelRepository;
+
+    @Autowired
     private UserRepository userRepository;
 
     public List<TaskEntity> getTasks(String authorizationHeader) {
@@ -31,7 +36,11 @@ public class TaskService {
 
         List<TaskEntity> tasks = taskRepository.getTasks(username);
 
-        tasks.stream().peek(task -> task.getUser().setPassword(null)).collect(Collectors.toList());
+        tasks.stream().peek(task -> {
+            task.getUser().setPassword(null);
+            task.getLabel().stream().peek(labelEntity -> labelEntity.setTaskId(null)).collect(Collectors.toList());
+        }).collect(Collectors.toList());
+
 
         return tasks;
     }
@@ -42,6 +51,7 @@ public class TaskService {
 
         TaskEntity task = taskRepository.getTask(username, taskId);
         task.getUser().setPassword(null);
+        task.getLabel().stream().peek(labelEntity -> labelEntity.setTaskId(null)).collect(Collectors.toList());
 
         return task;
     }
@@ -125,6 +135,24 @@ public class TaskService {
         return msg;
     }
 
+    public List<String> addLabel(String authorization, Long taskId, String name) {
+        ArrayList<String> msg = new ArrayList<>();
+        String username = getUsername(authorization);
+
+        try{
+            TaskEntity task = taskRepository.getTask(username, taskId);
+            LabelEntity labelEntity = new LabelEntity();
+            labelEntity.setName(name);
+            labelEntity.setTaskId(task.getId());
+            labelRepository.add(labelEntity);
+
+            msg.add("Label added successful");
+        } catch (Exception ex) {
+            msg.add("Invalid task id");
+        }
+        return msg;
+    }
+
     private String getUsername(String authorizationHeader) {
         if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
             String token = authorizationHeader.substring(7);
@@ -132,4 +160,5 @@ public class TaskService {
         }
         return "";
     }
+
 }

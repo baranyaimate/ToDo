@@ -1,20 +1,20 @@
 package com.example.todo.Model.Response;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class MessageResponse {
 
-    private ArrayList<String> msg;
+    private List<String> message;
 
-    public MessageResponse(ArrayList<String> msg) {
-        this.msg = msg;
+    public MessageResponse(List<String> message) {
+        this.message = message;
     }
 
-    public ArrayList<String> getMsg() {
-        return msg;
+    public List<String> getMsg() {
+        return message;
     }
 
-    public void setMsg(ArrayList<String> msg) {
-        this.msg = msg;
+    public void setMsg(List<String> message) {
+        this.message = message;
     }
 }

@@ -1,7 +1,7 @@
 package com.example.todo.Controller;
 
 import com.example.todo.Model.Entity.TaskEntity;
-import com.example.todo.Model.Response.TasksResponse;
+import com.example.todo.Model.Response.MessageResponse;
 import com.example.todo.Service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -16,32 +16,32 @@ public class TaskController {
 
     @PostMapping("/tasks")
     @ResponseBody
-    public List<TasksResponse> getTasks(@RequestHeader String authorization) {
+    public List<TaskEntity> getTasks(@RequestHeader String authorization) {
         return taskService.getTasks(authorization);
     }
 
     @PostMapping("/task/{taskId}")
     @ResponseBody
-    public TasksResponse getTask(@RequestHeader String authorization, @PathVariable Long taskId) {
+    public TaskEntity getTask(@RequestHeader String authorization, @PathVariable Long taskId) {
         return taskService.getTask(authorization, taskId);
     }
 
     @PostMapping("/task/add")
     @ResponseBody
-    public List<String> addTask(@RequestHeader String authorization, TaskEntity taskEntity) {
-        return taskService.addTask(authorization, taskEntity);
+    public MessageResponse addTask(@RequestHeader String authorization, TaskEntity taskEntity) {
+        return new MessageResponse(taskService.addTask(authorization, taskEntity));
     }
 
     @PostMapping("/task/delete/{taskId}")
     @ResponseBody
-    public List<String> deleteTask(@RequestHeader String authorization, @PathVariable Long taskId) {
-        return taskService.deleteTask(authorization, taskId);
+    public MessageResponse deleteTask(@RequestHeader String authorization, @PathVariable Long taskId) {
+        return new MessageResponse(taskService.deleteTask(authorization, taskId));
     }
 
-    @PostMapping("/task/update")
+    @PostMapping("/task/update/{taskId}")
     @ResponseBody
-    public List<String> updateTask(@RequestHeader String authorization, TaskEntity taskEntity) {
-        return taskService.updateTask(authorization, taskEntity);
+    public MessageResponse updateTask(@RequestHeader String authorization, TaskEntity taskEntity, @PathVariable Long taskId) {
+        return new MessageResponse(taskService.updateTask(authorization, taskEntity, taskId));
     }
 
 }

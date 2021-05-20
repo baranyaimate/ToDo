@@ -5,7 +5,9 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Table(name = "task")
 @Entity
@@ -22,6 +24,10 @@ public class TaskEntity extends CoreEntity {
     @ManyToOne
     @JoinColumn(name = "userId")
     private UserEntity user;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "taskId")
+    private List<LabelEntity> label;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
@@ -108,6 +114,14 @@ public class TaskEntity extends CoreEntity {
 
     public void setIsImportant(Integer isImportant) {
         this.isImportant = isImportant;
+    }
+
+    public List<LabelEntity> getLabel() {
+        return label;
+    }
+
+    public void setLabel(List<LabelEntity> label) {
+        this.label = label;
     }
 
     @Override

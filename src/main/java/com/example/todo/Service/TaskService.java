@@ -2,8 +2,6 @@ package com.example.todo.Service;
 
 import com.example.todo.Model.Entity.TaskEntity;
 import com.example.todo.Model.Entity.UserEntity;
-import com.example.todo.Model.Response.TasksResponse;
-import com.example.todo.Repository.LabelRepository;
 import com.example.todo.Repository.TaskRepository;
 import com.example.todo.Repository.UserRepository;
 import com.example.todo.Security.JwtUtil;
@@ -25,37 +23,27 @@ public class TaskService {
     private TaskRepository taskRepository;
 
     @Autowired
-    private LabelRepository labelRepository;
-
-    @Autowired
     private UserRepository userRepository;
 
-    public List<TasksResponse> getTasks(String authorizationHeader) {
+    public List<TaskEntity> getTasks(String authorizationHeader) {
 
         String username = getUsername(authorizationHeader);
 
         List<TaskEntity> tasks = taskRepository.getTasks(username);
 
-        List<TasksResponse> tasksData = new ArrayList<>();
+        tasks.stream().peek(task -> task.getUser().setPassword(null)).collect(Collectors.toList());
 
-        tasks.stream().peek(task -> {
-            List<String> labels = labelRepository.getLabelsByTask(task.getId(), username);
-            task.getUser().setPassword(null);
-            tasksData.add(addTaskToTaskResponse(task, labels));
-        }).collect(Collectors.toList());
-
-        return tasksData;
+        return tasks;
     }
 
-    public TasksResponse getTask(String authorizationHeader, Long taskId) {
+    public TaskEntity getTask(String authorizationHeader, Long taskId) {
 
         String username = getUsername(authorizationHeader);
 
         TaskEntity task = taskRepository.getTask(username, taskId);
-        List<String> labels = labelRepository.getLabelsByTask(taskId, username);
         task.getUser().setPassword(null);
 
-        return addTaskToTaskResponse(task, labels);
+        return task;
     }
 
     public List<String> addTask(String authorizationHeader, TaskEntity taskEntity) {
@@ -89,14 +77,16 @@ public class TaskService {
         return msg;
     }
 
-    public List<String> updateTask(String authorizationHeader, TaskEntity taskEntity) {
+    public List<String> updateTask(String authorizationHeader, TaskEntity taskEntity, Long taskId) {
         ArrayList<String> msg = new ArrayList<>();
         String token = authorizationHeader.substring(7);
         UserEntity user = userRepository.findByUsername(jwtUtil.extractUsername(token));
-        TaskEntity currentTask = taskRepository.getTask(user.getUsername(), taskEntity.getId());
+        TaskEntity currentTask = taskRepository.getTask(user.getUsername(), taskId);
 
         taskEntity.setUpdatedAt(new Date(System.currentTimeMillis()));
         taskEntity.setUser(user);
+        taskEntity.setId(currentTask.getId());
+        taskEntity.setCreatedAt(currentTask.getCreatedAt());
 
         if (taskEntity.getDeadline() == null) {
             taskEntity.setDeadline(currentTask.getDeadline());
@@ -110,6 +100,8 @@ public class TaskService {
         if (taskEntity.getName() == null) {
             taskEntity.setName(currentTask.getName());
         }
+
+        System.out.println(taskEntity);
 
         try {
             taskRepository.update(taskEntity);
@@ -139,21 +131,5 @@ public class TaskService {
             return jwtUtil.extractUsername(token);
         }
         return "";
-    }
-
-    private TasksResponse addTaskToTaskResponse(TaskEntity task, List<String> labels) {
-        TasksResponse taskData = new TasksResponse();
-
-        taskData.setId(task.getId());
-        taskData.setName(task.getName());
-        taskData.setDeadline(task.getDeadline());
-        taskData.setDescription(task.getDescription());
-        taskData.setIsImportant(task.getIsImportant());
-        taskData.setUser(task.getUser());
-        taskData.setCreatedAt(task.getCreatedAt());
-        taskData.setUpdatedAt(task.getUpdatedAt());
-        taskData.setLabel(labels);
-
-        return taskData;
     }
 }

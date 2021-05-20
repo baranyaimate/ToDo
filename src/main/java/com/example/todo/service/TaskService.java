@@ -138,7 +138,7 @@ public class TaskService {
         try {
             TaskEntity task = taskRepository.getTask(username, taskId);
 
-            if(task.getLabel().size() < 10) {
+            if (task.getLabel().size() < 10) {
                 LabelEntity labelEntity = new LabelEntity();
                 labelEntity.setName(name);
                 labelEntity.setTask(task);

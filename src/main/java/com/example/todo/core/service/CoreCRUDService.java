@@ -1,7 +1,7 @@
-package com.example.todo.Core.service;
+package com.example.todo.core.service;
 
 
-import com.example.todo.Core.entity.CoreEntity;
+import com.example.todo.core.entity.CoreEntity;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.example.todo.Security;
+package com.example.todo.security;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -14,7 +14,7 @@ import java.util.function.Function;
 @Service
 public class JwtUtil {
 
-    private final String secret = "64xpAhEw782ry7Ox1Uj0DWsd4ljPkrTc5632aAgx53D";
+    private static final String SECRET = "64xpAhEw782ry7Ox1Uj0DWsd4ljPkrTc5632aAgx53D";
 
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
@@ -26,7 +26,7 @@ public class JwtUtil {
         } catch (NumberFormatException ex) {
             System.out.println(ex);
         }
-        return 0l;
+        return 0L;
     }
 
     public Date extractExpiration(String token) {
@@ -39,7 +39,7 @@ public class JwtUtil {
     }
 
     private Claims extractAllClaims(String token) {
-        return Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
+        return Jwts.parser().setSigningKey(SECRET).parseClaimsJws(token).getBody();
     }
 
     private Boolean isTokenExpired(String token) {
@@ -55,7 +55,7 @@ public class JwtUtil {
 
         return Jwts.builder().setClaims(claims).setSubject(subject).setId(subjectId).setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10))
-                .signWith(SignatureAlgorithm.HS256, secret).compact();
+                .signWith(SignatureAlgorithm.HS256, SECRET).compact();
     }
 
     public Boolean validateToken(String token, UserDetails userDetails) {

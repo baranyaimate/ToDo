@@ -1,4 +1,4 @@
-package com.example.todo.Core.entity;
+package com.example.todo.core.entity;
 
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Transient;

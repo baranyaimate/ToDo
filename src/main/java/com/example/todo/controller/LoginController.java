@@ -1,8 +1,8 @@
-package com.example.todo.Controller;
+package com.example.todo.controller;
 
-import com.example.todo.Model.Request.AuthRequest;
-import com.example.todo.Repository.UserRepository;
-import com.example.todo.Security.JwtUtil;
+import com.example.todo.model.request.AuthRequest;
+import com.example.todo.repository.UserRepository;
+import com.example.todo.security.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -23,7 +23,7 @@ public class LoginController {
     private AuthenticationManager authenticationManager;
 
     @GetMapping("/")
-    public String Login() {
+    public String login() {
         return "Successful logged in!";
     }
 

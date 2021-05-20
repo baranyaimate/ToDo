@@ -1,8 +1,8 @@
-package com.example.todo.Controller;
+package com.example.todo.controller;
 
-import com.example.todo.Model.Request.RegistrationRequest;
-import com.example.todo.Model.Response.MessageResponse;
-import com.example.todo.Service.UserService;
+import com.example.todo.model.request.RegistrationRequest;
+import com.example.todo.model.response.MessageResponse;
+import com.example.todo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -18,6 +18,6 @@ public class RegistrationController {
     @PostMapping("/registration")
     @ResponseBody
     public MessageResponse registration(RegistrationRequest registrationRequest) {
-        return new MessageResponse(userService.Registration(registrationRequest));
+        return new MessageResponse(userService.registration(registrationRequest));
     }
 }

@@ -1,8 +1,8 @@
-package com.example.todo.Controller;
+package com.example.todo.controller;
 
-import com.example.todo.Model.Entity.TaskEntity;
-import com.example.todo.Model.Response.MessageResponse;
-import com.example.todo.Service.TaskService;
+import com.example.todo.model.entity.TaskEntity;
+import com.example.todo.model.response.MessageResponse;
+import com.example.todo.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

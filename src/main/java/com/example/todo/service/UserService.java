@@ -1,8 +1,8 @@
-package com.example.todo.Service;
+package com.example.todo.service;
 
-import com.example.todo.Model.Entity.UserEntity;
-import com.example.todo.Model.Request.RegistrationRequest;
-import com.example.todo.Repository.UserRepository;
+import com.example.todo.model.entity.UserEntity;
+import com.example.todo.model.request.RegistrationRequest;
+import com.example.todo.repository.UserRepository;
 import org.apache.commons.validator.routines.EmailValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Service
 public class UserService {
@@ -20,7 +21,7 @@ public class UserService {
     @Autowired
     private UserRepository userRepo;
 
-    public ArrayList<String> Registration(RegistrationRequest user) {
+    public List<String> registration(RegistrationRequest user) {
         ArrayList<String> msg = new ArrayList<>();
 
         if (user.getUsername().length() < 4) {
@@ -43,15 +44,15 @@ public class UserService {
             msg.add("Invalid Email address");
         }
 
-        if (PasswordStrength(user.getPassword()) < 6) {
+        if (passwordStrength(user.getPassword()) < 6) {
             msg.add("Password is too easy");
         }
 
-        if (UsernameIsUnique(user.getUsername())) {
+        if (usernameIsUnique(user.getUsername())) {
             msg.add("Username is not unique");
         }
 
-        if (EmailIsUnique(user.getEmail())) {
+        if (emailIsUnique(user.getEmail())) {
             msg.add("Email is not unique");
         }
 
@@ -73,7 +74,7 @@ public class UserService {
         return msg;
     }
 
-    private int PasswordStrength(String password) {
+    private int passwordStrength(String password) {
 
         //total score of password
         int passwordScore = 0;
@@ -100,11 +101,11 @@ public class UserService {
         return passwordScore;
     }
 
-    private boolean UsernameIsUnique(String username) {
+    private boolean usernameIsUnique(String username) {
         return userRepo.countByUsername(username) > 0;
     }
 
-    private boolean EmailIsUnique(String email) {
+    private boolean emailIsUnique(String email) {
         return userRepo.countByEmail(email) > 0;
     }
 }

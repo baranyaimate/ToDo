@@ -1,7 +1,7 @@
-package com.example.todo.Repository;
+package com.example.todo.repository;
 
-import com.example.todo.Core.service.CoreCRUDService;
-import com.example.todo.Model.Entity.TaskEntity;
+import com.example.todo.core.service.CoreCRUDService;
+import com.example.todo.model.entity.TaskEntity;
 
 import java.util.List;
 

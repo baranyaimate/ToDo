@@ -50,4 +50,10 @@ public class TaskController {
         return new MessageResponse(taskService.addLabel(authorization, taskId, name));
     }
 
+    @PostMapping("/task/label/remove/{labelId}")
+    @ResponseBody
+    public MessageResponse removeLabel(@RequestHeader String authorization, @PathVariable Long labelId) {
+        return new MessageResponse(taskService.removeLabel(authorization, labelId));
+    }
+
 }

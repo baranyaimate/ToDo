@@ -154,6 +154,27 @@ public class TaskService {
         return msg;
     }
 
+    public List<String> removeLabel(String authorization, Long labelId) {
+        ArrayList<String> msg = new ArrayList<>();
+
+        try {
+            /*
+                TODO:
+                Bugos
+                Töröl csomó mindent az adatbázisbol
+                Szerintem a cascade = CascadeType.ALL miatt
+             */
+            LabelEntity labelEntity = new LabelEntity();
+            labelEntity.setId(labelId);
+            labelRepository.remove(labelEntity);
+
+            msg.add("Label removed successfully");
+        } catch (Exception e) {
+            msg.add("Invalid label id");
+        }
+        return msg;
+    }
+
     private String getUsername(String authorizationHeader) {
         if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
             String token = authorizationHeader.substring(7);

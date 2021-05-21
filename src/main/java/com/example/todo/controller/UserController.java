@@ -9,10 +9,7 @@ import com.example.todo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class UserController {
@@ -50,6 +47,12 @@ public class UserController {
     @ResponseBody
     public MessageResponse registration(RegistrationRequest registrationRequest) {
         return new MessageResponse(userService.registration(registrationRequest));
+    }
+
+    @PostMapping("/user/delete")
+    @ResponseBody
+    public String deleteUser(@RequestHeader String authorization) {
+        return userService.deleteUser(authorization);
     }
 
 }

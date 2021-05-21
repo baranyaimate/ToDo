@@ -3,6 +3,7 @@ package com.example.todo.service;
 import com.example.todo.model.entity.UserEntity;
 import com.example.todo.model.request.RegistrationRequest;
 import com.example.todo.repository.UserRepository;
+import com.example.todo.security.JwtUtil;
 import org.apache.commons.validator.routines.EmailValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -16,10 +17,13 @@ import java.util.List;
 public class UserService {
 
     @Autowired
+    private JwtUtil jwtUtil;
+
+    @Autowired
     private PasswordEncoder passwordEncoder;
 
     @Autowired
-    private UserRepository userRepo;
+    private UserRepository userRepository;
 
     public List<String> registration(RegistrationRequest user) {
         ArrayList<String> msg = new ArrayList<>();
@@ -64,7 +68,7 @@ public class UserService {
                 userEntity.setEmail(user.getEmail());
                 userEntity.setIsActive(1);
                 userEntity.setCreatedAt(new Date(System.currentTimeMillis()));
-                userRepo.save(userEntity);
+                userRepository.save(userEntity);
                 msg.add("Successful registration");
             }
         } catch (Exception ex) {
@@ -72,6 +76,18 @@ public class UserService {
         }
 
         return msg;
+    }
+
+    public String deleteUser(String authorizationHeader) {
+        String token = authorizationHeader.substring(7);
+        UserEntity user = userRepository.findByUsername(jwtUtil.extractUsername(token));
+
+        if (user != null) {
+            user.setIsActive(0);
+            userRepository.save(user);
+            return "User deleted successfully";
+        }
+        return "Invalid user";
     }
 
     private int passwordStrength(String password) {
@@ -102,10 +118,10 @@ public class UserService {
     }
 
     private boolean usernameIsUnique(String username) {
-        return userRepo.countByUsername(username) > 0;
+        return userRepository.countByUsername(username) > 0;
     }
 
     private boolean emailIsUnique(String email) {
-        return userRepo.countByEmail(email) > 0;
+        return userRepository.countByEmail(email) > 0;
     }
 }

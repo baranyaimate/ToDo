@@ -16,7 +16,7 @@ public class LabelEntity extends CoreEntity {
     @Column(name = "name")
     private String name;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "taskId")
     private TaskEntity taskId;
 

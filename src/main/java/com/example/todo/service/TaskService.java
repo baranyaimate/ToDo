@@ -80,7 +80,7 @@ public class TaskService {
 
         if (msg.isEmpty()) {
             taskRepository.add(taskEntity);
-            msg.add("Task created");
+            msg.add("Task created successfully");
         }
         return msg;
     }
@@ -111,7 +111,7 @@ public class TaskService {
 
         try {
             taskRepository.update(taskEntity);
-            msg.add("Task updated");
+            msg.add("Task updated successfully");
         } catch (Exception e) {
             msg.add("Invalid parameters");
         }
@@ -124,7 +124,7 @@ public class TaskService {
 
         try {
             taskRepository.remove(taskRepository.getTask(username, taskId));
-            msg.add("Task deleted");
+            msg.add("Task deleted successfully");
         } catch (Exception e) {
             msg.add("Invalid task id");
         }
@@ -144,7 +144,7 @@ public class TaskService {
                 labelEntity.setTask(task);
                 labelRepository.add(labelEntity);
 
-                msg.add("Label added successful");
+                msg.add("Label added successfully");
             } else {
                 msg.add("You have reached the max number of the labels");
             }

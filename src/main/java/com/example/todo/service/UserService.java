@@ -41,7 +41,7 @@ public class UserService {
         }
 
         if (!EmailValidator.getInstance().isValid(user.getEmail())) {
-            msg.add("Invalid Email address");
+            msg.add("Invalid email address");
         }
 
         if (passwordStrength(user.getPassword()) < 6) {

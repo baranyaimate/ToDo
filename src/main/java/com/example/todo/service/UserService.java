@@ -3,7 +3,6 @@ package com.example.todo.service;
 import com.example.todo.model.entity.UserEntity;
 import com.example.todo.model.request.RegistrationRequest;
 import com.example.todo.repository.UserRepository;
-import com.example.todo.security.JwtUtil;
 import org.apache.commons.validator.routines.EmailValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -18,9 +17,6 @@ import java.util.List;
 
 @Service
 public class UserService {
-
-    @Autowired
-    private JwtUtil jwtUtil;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -66,6 +62,12 @@ public class UserService {
         try {
             if (msg.isEmpty()) {
                 UserEntity userEntity = new UserEntity();
+
+                Long oldUserId = checkOldUser(user.getEmail());
+                if (oldUserId != 0l) {
+                    userEntity.setId(oldUserId);
+                }
+
                 userEntity.setUsername(user.getUsername());
                 userEntity.setPassword(passwordEncoder.encode(user.getPassword()));
                 userEntity.setEmail(user.getEmail());
@@ -87,6 +89,7 @@ public class UserService {
         if (user != null) {
             user.setIsActive(0);
             userRepository.save(user);
+            SecurityContextHolder.getContext().setAuthentication(null);
             return "User deleted successfully";
         }
         return "Invalid user";
@@ -120,18 +123,25 @@ public class UserService {
     }
 
     private boolean usernameIsUnique(String username) {
-        return userRepository.countByUsername(username) > 0;
+        return userRepository.countByUsernameAndIsActive(username, 1) > 0;
     }
 
     private boolean emailIsUnique(String email) {
-        return userRepository.countByEmail(email) > 0;
+        return userRepository.countByEmailAndIsActive(email, 1) > 0;
+    }
+
+    private Long checkOldUser(String email) {
+        try {
+            return userRepository.findByEmailAndIsActive(email, 0).getId();
+        } catch (NullPointerException ex){
+            return 0l;
+        }
     }
 
     private String getUsername() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (!(authentication instanceof AnonymousAuthenticationToken)) {
-            String currentUserName = authentication.getName();
-            return currentUserName;
+            return authentication.getName();
         }
         return "";
     }

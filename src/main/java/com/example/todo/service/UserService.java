@@ -64,7 +64,7 @@ public class UserService {
                 UserEntity userEntity = new UserEntity();
 
                 Long oldUserId = checkOldUser(user.getEmail());
-                if (oldUserId != 0l) {
+                if (oldUserId != 0L) {
                     userEntity.setId(oldUserId);
                 }
 
@@ -133,8 +133,8 @@ public class UserService {
     private Long checkOldUser(String email) {
         try {
             return userRepository.findByEmailAndIsActive(email, 0).getId();
-        } catch (NullPointerException ex){
-            return 0l;
+        } catch (NullPointerException ex) {
+            return 0L;
         }
     }
 

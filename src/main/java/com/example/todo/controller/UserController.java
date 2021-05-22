@@ -9,22 +9,22 @@ import com.example.todo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class UserController {
 
     @Autowired
+    UserService userService;
+    @Autowired
     private JwtUtil jwtUtil;
-
     @Autowired
     private UserRepository userRepository;
-
     @Autowired
     private AuthenticationManager authenticationManager;
-
-    @Autowired
-    UserService userService;
 
     @GetMapping("/")
     public String login() {

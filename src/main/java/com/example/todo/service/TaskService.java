@@ -156,19 +156,18 @@ public class TaskService {
 
     public List<String> removeLabel(String authorization, Long labelId) {
         ArrayList<String> msg = new ArrayList<>();
+        String username = getUsername(authorization);
 
         try {
-            /*
-                TODO:
-                Bugos
-                Töröl csomó mindent az adatbázisbol
-                Szerintem a cascade = CascadeType.ALL miatt
-             */
-            LabelEntity labelEntity = new LabelEntity();
-            labelEntity.setId(labelId);
-            labelRepository.remove(labelEntity);
+            LabelEntity labelEntity = labelRepository.findById(labelId);
+            TaskEntity taskEntity = taskRepository.findById(labelEntity.getId());
 
-            msg.add("Label removed successfully");
+            if (taskEntity.getUser().getUsername().equals(username)) {
+                labelRepository.remove(labelEntity);
+                msg.add("Label removed successfully");
+            } else {
+                msg.add("Invalid label id");
+            }
         } catch (Exception e) {
             msg.add("Invalid label id");
         }

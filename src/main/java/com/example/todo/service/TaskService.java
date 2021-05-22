@@ -70,33 +70,34 @@ public class TaskService {
     }
 
     public List<String> updateTask(TaskEntity taskEntity, Long taskId) {
-        UserEntity user = userRepository.findByUsername(getUsername());
-        TaskEntity currentTask = taskRepository.getTask(user.getUsername(), taskId);
-
-        taskEntity.setUpdatedAt(new Date(System.currentTimeMillis()));
-        taskEntity.setUser(user);
-        taskEntity.setId(currentTask.getId());
-        taskEntity.setCreatedAt(currentTask.getCreatedAt());
-
-        if (taskEntity.getDeadline() == null) {
-            taskEntity.setDeadline(currentTask.getDeadline());
-        }
-
-        if (taskEntity.getDescription() == null) {
-            taskEntity.setDescription(currentTask.getDescription());
-        }
-
-        if (taskEntity.getIsImportant() == null) {
-            taskEntity.setIsImportant(currentTask.getIsImportant());
-        }
-
-        if (taskEntity.getName() == null) {
-            taskEntity.setName(currentTask.getName());
-        }
-
-        ArrayList<String> msg = new ArrayList<>(taskValidation(taskEntity));
-
+        ArrayList<String> msg = new ArrayList<>();
         try {
+            UserEntity user = userRepository.findByUsername(getUsername());
+            TaskEntity currentTask = taskRepository.getTask(user.getUsername(), taskId);
+
+            taskEntity.setUpdatedAt(new Date(System.currentTimeMillis()));
+            taskEntity.setUser(user);
+            taskEntity.setId(currentTask.getId());
+            taskEntity.setCreatedAt(currentTask.getCreatedAt());
+
+            if (taskEntity.getDeadline() == null) {
+                taskEntity.setDeadline(currentTask.getDeadline());
+            }
+
+            if (taskEntity.getDescription() == null) {
+                taskEntity.setDescription(currentTask.getDescription());
+            }
+
+            if (taskEntity.getIsImportant() == null) {
+                taskEntity.setIsImportant(currentTask.getIsImportant());
+            }
+
+            if (taskEntity.getName() == null) {
+                taskEntity.setName(currentTask.getName());
+            }
+
+            msg = taskValidation(taskEntity);
+
             taskRepository.update(taskEntity);
             msg.add("Task updated successfully");
         } catch (Exception e) {

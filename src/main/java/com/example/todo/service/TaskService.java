@@ -6,8 +6,10 @@ import com.example.todo.model.entity.UserEntity;
 import com.example.todo.repository.LabelRepository;
 import com.example.todo.repository.TaskRepository;
 import com.example.todo.repository.UserRepository;
-import com.example.todo.security.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -18,9 +20,6 @@ import java.util.List;
 public class TaskService {
 
     @Autowired
-    private JwtUtil jwtUtil;
-
-    @Autowired
     private TaskRepository taskRepository;
 
     @Autowired
@@ -29,9 +28,8 @@ public class TaskService {
     @Autowired
     private UserRepository userRepository;
 
-    public List<TaskEntity> getTasks(String authorizationHeader) {
-
-        String username = getUsername(authorizationHeader);
+    public List<TaskEntity> getTasks() {
+        String username = getUsername();
 
         List<TaskEntity> tasks = taskRepository.getTasks(username);
 
@@ -43,9 +41,9 @@ public class TaskService {
         return tasks;
     }
 
-    public TaskEntity getTask(String authorizationHeader, Long taskId) {
+    public TaskEntity getTask(Long taskId) {
 
-        String username = getUsername(authorizationHeader);
+        String username = getUsername();
 
         TaskEntity task = taskRepository.getTask(username, taskId);
         task.getUser().setPassword(null);
@@ -54,10 +52,9 @@ public class TaskService {
         return task;
     }
 
-    public List<String> addTask(String authorizationHeader, TaskEntity taskEntity) {
+    public List<String> addTask(TaskEntity taskEntity) {
         ArrayList<String> msg = new ArrayList<>();
-        String token = authorizationHeader.substring(7);
-        UserEntity user = userRepository.findByUsername(jwtUtil.extractUsername(token));
+        UserEntity user = userRepository.findByUsername(getUsername());
 
         taskEntity.setCreatedAt(new Date(System.currentTimeMillis()));
         taskEntity.setUser(user);
@@ -85,10 +82,9 @@ public class TaskService {
         return msg;
     }
 
-    public List<String> updateTask(String authorizationHeader, TaskEntity taskEntity, Long taskId) {
+    public List<String> updateTask(TaskEntity taskEntity, Long taskId) {
         ArrayList<String> msg = new ArrayList<>();
-        String token = authorizationHeader.substring(7);
-        UserEntity user = userRepository.findByUsername(jwtUtil.extractUsername(token));
+        UserEntity user = userRepository.findByUsername(getUsername());
         TaskEntity currentTask = taskRepository.getTask(user.getUsername(), taskId);
 
         taskEntity.setUpdatedAt(new Date(System.currentTimeMillis()));
@@ -118,9 +114,9 @@ public class TaskService {
         return msg;
     }
 
-    public List<String> deleteTask(String authorizationHeader, Long taskId) {
+    public List<String> deleteTask(Long taskId) {
         ArrayList<String> msg = new ArrayList<>();
-        String username = getUsername(authorizationHeader);
+        String username = getUsername();
 
         try {
             taskRepository.remove(taskRepository.getTask(username, taskId));
@@ -131,9 +127,9 @@ public class TaskService {
         return msg;
     }
 
-    public List<String> addLabel(String authorization, Long taskId, String name) {
+    public List<String> addLabel(Long taskId, String name) {
         ArrayList<String> msg = new ArrayList<>();
-        String username = getUsername(authorization);
+        String username = getUsername();
 
         try {
             TaskEntity task = taskRepository.getTask(username, taskId);
@@ -154,9 +150,9 @@ public class TaskService {
         return msg;
     }
 
-    public List<String> removeLabel(String authorization, Long labelId) {
+    public List<String> removeLabel(Long labelId) {
         ArrayList<String> msg = new ArrayList<>();
-        String username = getUsername(authorization);
+        String username = getUsername();
 
         try {
             LabelEntity labelEntity = labelRepository.findById(labelId);
@@ -174,10 +170,11 @@ public class TaskService {
         return msg;
     }
 
-    private String getUsername(String authorizationHeader) {
-        if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
-            String token = authorizationHeader.substring(7);
-            return jwtUtil.extractUsername(token);
+    private String getUsername() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (!(authentication instanceof AnonymousAuthenticationToken)) {
+            String currentUserName = authentication.getName();
+            return currentUserName;
         }
         return "";
     }

@@ -16,44 +16,44 @@ public class TaskController {
 
     @PostMapping("/tasks")
     @ResponseBody
-    public List<TaskEntity> getTasks(@RequestHeader String authorization) {
-        return taskService.getTasks(authorization);
+    public List<TaskEntity> getTasks() {
+        return taskService.getTasks();
     }
 
     @PostMapping("/task/{taskId}")
     @ResponseBody
-    public TaskEntity getTask(@RequestHeader String authorization, @PathVariable Long taskId) {
-        return taskService.getTask(authorization, taskId);
+    public TaskEntity getTask(@PathVariable Long taskId) {
+        return taskService.getTask(taskId);
     }
 
     @PostMapping("/task/add")
     @ResponseBody
-    public MessageResponse addTask(@RequestHeader String authorization, TaskEntity taskEntity) {
-        return new MessageResponse(taskService.addTask(authorization, taskEntity));
+    public MessageResponse addTask(TaskEntity taskEntity) {
+        return new MessageResponse(taskService.addTask(taskEntity));
     }
 
     @PostMapping("/task/delete/{taskId}")
     @ResponseBody
-    public MessageResponse deleteTask(@RequestHeader String authorization, @PathVariable Long taskId) {
-        return new MessageResponse(taskService.deleteTask(authorization, taskId));
+    public MessageResponse deleteTask(@PathVariable Long taskId) {
+        return new MessageResponse(taskService.deleteTask(taskId));
     }
 
     @PostMapping("/task/update/{taskId}")
     @ResponseBody
-    public MessageResponse updateTask(@RequestHeader String authorization, TaskEntity taskEntity, @PathVariable Long taskId) {
-        return new MessageResponse(taskService.updateTask(authorization, taskEntity, taskId));
+    public MessageResponse updateTask(TaskEntity taskEntity, @PathVariable Long taskId) {
+        return new MessageResponse(taskService.updateTask(taskEntity, taskId));
     }
 
     @PostMapping("/task/label/add/{taskId}")
     @ResponseBody
-    public MessageResponse addLabel(@RequestHeader String authorization, @PathVariable Long taskId, @RequestParam String name) {
-        return new MessageResponse(taskService.addLabel(authorization, taskId, name));
+    public MessageResponse addLabel(@PathVariable Long taskId, @RequestParam String name) {
+        return new MessageResponse(taskService.addLabel(taskId, name));
     }
 
     @PostMapping("/task/label/remove/{labelId}")
     @ResponseBody
-    public MessageResponse removeLabel(@RequestHeader String authorization, @PathVariable Long labelId) {
-        return new MessageResponse(taskService.removeLabel(authorization, labelId));
+    public MessageResponse removeLabel(@PathVariable Long labelId) {
+        return new MessageResponse(taskService.removeLabel(labelId));
     }
 
 }

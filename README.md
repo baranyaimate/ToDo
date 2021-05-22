@@ -10,7 +10,7 @@
 
 **Registration Fail:**
 
-![Registration Fail](https://raw.githubusercontent.com/baranyaimate/ToDo/master/img%20resources/Registration%20E.PNG?token=ALBAXQ73PCQNH7QUDPJTWULAWJVXY)
+![Registration Fail](https://raw.githubusercontent.com/baranyaimate/ToDo/master/img%20resources/Registration.PNG)
 
 **Registration Success:**
 

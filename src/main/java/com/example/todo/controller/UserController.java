@@ -51,8 +51,8 @@ public class UserController {
 
     @PostMapping("/user/delete")
     @ResponseBody
-    public String deleteUser(@RequestHeader String authorization) {
-        return userService.deleteUser(authorization);
+    public String deleteUser() {
+        return userService.deleteUser();
     }
 
 }

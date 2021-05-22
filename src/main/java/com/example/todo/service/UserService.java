@@ -6,6 +6,9 @@ import com.example.todo.repository.UserRepository;
 import com.example.todo.security.JwtUtil;
 import org.apache.commons.validator.routines.EmailValidator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -78,9 +81,8 @@ public class UserService {
         return msg;
     }
 
-    public String deleteUser(String authorizationHeader) {
-        String token = authorizationHeader.substring(7);
-        UserEntity user = userRepository.findByUsername(jwtUtil.extractUsername(token));
+    public String deleteUser() {
+        UserEntity user = userRepository.findByUsername(getUsername());
 
         if (user != null) {
             user.setIsActive(0);
@@ -123,5 +125,14 @@ public class UserService {
 
     private boolean emailIsUnique(String email) {
         return userRepository.countByEmail(email) > 0;
+    }
+
+    private String getUsername() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (!(authentication instanceof AnonymousAuthenticationToken)) {
+            String currentUserName = authentication.getName();
+            return currentUserName;
+        }
+        return "";
     }
 }

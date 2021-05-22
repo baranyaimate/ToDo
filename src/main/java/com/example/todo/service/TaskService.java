@@ -42,7 +42,6 @@ public class TaskService {
     }
 
     public TaskEntity getTask(Long taskId) {
-
         String username = getUsername();
 
         TaskEntity task = taskRepository.getTask(username, taskId);
@@ -59,21 +58,7 @@ public class TaskService {
         taskEntity.setCreatedAt(new Date(System.currentTimeMillis()));
         taskEntity.setUser(user);
 
-        if (taskEntity.getDeadline() == null) {
-            msg.add("Deadline is required");
-        }
-        if (taskEntity.getDescription() == null || taskEntity.getDescription().length() < 4) {
-            msg.add("Description is too short");
-        }
-        if (taskEntity.getIsImportant() == null) {
-            taskEntity.setIsImportant(0);
-        }
-        if (taskEntity.getIsImportant() > 1) {
-            taskEntity.setIsImportant(1);
-        }
-        if (taskEntity.getDescription() == null || taskEntity.getName().length() < 4) {
-            msg.add("Name is too short");
-        }
+        msg.addAll(taskValidation(taskEntity));
 
         if (msg.isEmpty()) {
             taskRepository.add(taskEntity);
@@ -95,15 +80,20 @@ public class TaskService {
         if (taskEntity.getDeadline() == null) {
             taskEntity.setDeadline(currentTask.getDeadline());
         }
+
         if (taskEntity.getDescription() == null) {
             taskEntity.setDescription(currentTask.getDescription());
         }
+
         if (taskEntity.getIsImportant() == null) {
             taskEntity.setIsImportant(currentTask.getIsImportant());
         }
+
         if (taskEntity.getName() == null) {
             taskEntity.setName(currentTask.getName());
         }
+
+        msg.addAll(taskValidation(taskEntity));
 
         try {
             taskRepository.update(taskEntity);
@@ -130,6 +120,14 @@ public class TaskService {
     public List<String> addLabel(Long taskId, String name) {
         ArrayList<String> msg = new ArrayList<>();
         String username = getUsername();
+
+        if (name == null || name.equals("")) {
+            msg.add("Label name is required");
+        }
+
+        if (name.length() > 40) {
+            msg.add("Label name is too long");
+        }
 
         try {
             TaskEntity task = taskRepository.getTask(username, taskId);
@@ -178,4 +176,41 @@ public class TaskService {
         return "";
     }
 
+    private ArrayList<String> taskValidation(TaskEntity taskEntity) {
+        ArrayList<String> msg = new ArrayList<>();
+
+        if (taskEntity.getDescription() == null || taskEntity.getDescription().length() < 4) {
+            msg.add("Description is too short");
+        }
+
+        if (taskEntity.getDescription().length() > 255) {
+            msg.add("Description is too long");
+        }
+
+        if (taskEntity.getName() == null || taskEntity.getName().length() < 3) {
+            msg.add("Task name is too short");
+        }
+
+        if (taskEntity.getName().length() > 50) {
+            msg.add("Task name is too long");
+        }
+
+        if (taskEntity.getDeadline() == null) {
+            msg.add("Deadline is required");
+        }
+
+        if (taskEntity.getDeadline().before(new Date(System.currentTimeMillis()))) {
+            msg.add("The deadline is not correct");
+        }
+
+        if (taskEntity.getIsImportant() == null || taskEntity.getIsImportant() < 0) {
+            taskEntity.setIsImportant(0);
+        }
+
+        if (taskEntity.getIsImportant() > 1) {
+            taskEntity.setIsImportant(1);
+        }
+
+        return msg;
+    }
 }

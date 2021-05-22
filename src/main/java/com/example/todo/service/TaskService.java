@@ -125,8 +125,10 @@ public class TaskService {
 
         if (name == null || name.equals("")) {
             msg.add("Label name is required");
+            return msg;
         } else if (name.length() > 40) {
             msg.add("Label name is too long");
+            return msg;
         }
 
         try {

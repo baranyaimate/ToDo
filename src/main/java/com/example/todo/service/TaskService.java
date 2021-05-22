@@ -43,12 +43,15 @@ public class TaskService {
 
     public TaskEntity getTask(Long taskId) {
         String username = getUsername();
+        try {
+            TaskEntity task = taskRepository.getTask(username, taskId);
+            task.getUser().setPassword(null);
+            task.getLabel().forEach(labelEntity -> labelEntity.setTask(null));
 
-        TaskEntity task = taskRepository.getTask(username, taskId);
-        task.getUser().setPassword(null);
-        task.getLabel().forEach(labelEntity -> labelEntity.setTask(null));
-
-        return task;
+            return task;
+        } catch (Exception ex) {
+            return new TaskEntity();
+        }
     }
 
     public List<String> addTask(TaskEntity taskEntity) {

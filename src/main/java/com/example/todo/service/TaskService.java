@@ -150,7 +150,7 @@ public class TaskService {
 
         try {
             LabelEntity labelEntity = labelRepository.findById(labelId);
-            TaskEntity taskEntity = taskRepository.findById(labelEntity.getId());
+            TaskEntity taskEntity = taskRepository.findById(labelEntity.getTask().getId());
 
             if (taskEntity.getUser().getUsername().equals(username)) {
                 labelRepository.remove(labelEntity);
@@ -159,6 +159,33 @@ public class TaskService {
                 msg.add("Invalid label id");
             }
         } catch (Exception e) {
+            msg.add("Invalid label id");
+        }
+        return msg;
+    }
+
+    public List<String> updateLabel(Long labelId, String labelName) {
+        ArrayList<String> msg = new ArrayList<>();
+        String username = getUsername();
+
+        if (labelName == null || labelName.equals("")) {
+            msg.add("Label name is required");
+        } else if (labelName.length() > 40) {
+            msg.add("Label name is too long");
+        }
+
+        try {
+            LabelEntity labelEntity = labelRepository.findById(labelId);
+            TaskEntity taskEntity = taskRepository.findById(labelEntity.getTask().getId());
+
+            if (taskEntity.getUser().getUsername().equals(username)) {
+                labelEntity.setName(labelName);
+                labelRepository.update(labelEntity);
+                msg.add("Label updated successfully");
+            } else {
+                msg.add("Invalid label id");
+            }
+        } catch (Exception ex) {
             msg.add("Invalid label id");
         }
         return msg;

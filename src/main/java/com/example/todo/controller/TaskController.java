@@ -56,4 +56,10 @@ public class TaskController {
         return new MessageResponse(taskService.removeLabel(labelId));
     }
 
+    @PostMapping("/task/label/update/{labelId}")
+    @ResponseBody
+    public MessageResponse updateLabel(@PathVariable Long labelId, @RequestParam String labelName) {
+        return new MessageResponse(taskService.updateLabel(labelId, labelName));
+    }
+
 }
